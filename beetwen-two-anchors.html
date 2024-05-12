@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css anchor positioning api</title>
+</head>
+<body>
+    <style>
+        .anchor {
+            anchor-name: --my-anch;
+            position: absolute;
+        }
+        .anchor-2 {
+            anchor-name: --my-anch-2;
+            position: absolute;
+        }
+        .tooltip {
+            position: absolute;
+            left: anchor(--my-anch right);
+            top: anchor(--my-anch bottom);
+            right: anchor(--my-anch-2 left);
+            bottom: anchor(--my-anch-2 top);
+        }
+    </style>
+
+    <div class="container">
+        <button class="anchor">
+            i'm the anchor 1
+        </button>
+        <button class="anchor-2">
+            i'm the anchor 2
+        </button>
+    </div>
+    <div>
+        <span class="tooltip">
+            my tooltip
+        </span>
+    </div>
+    <script>
+        const anchor = document.querySelector(".anchor");
+        const anchor2 = document.querySelector(".anchor-2");
+        anchor.addEventListener("click", event => {
+            event.stopPropagation();
+        });
+        anchor2.addEventListener("click", event => {
+            event.stopPropagation();
+        });
+
+        let i = 0;
+        document.addEventListener("click", event => {
+            const anchorToStyleSet = i % 2 === 0 ? anchor : anchor2;
+            anchorToStyleSet.style.top = `${event.clientY}px`;
+            anchorToStyleSet.style.left = `${event.clientX}px`;
+            i++
+        });
+    </script>
+</body>
+</html>
