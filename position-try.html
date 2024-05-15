@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css anchor positioning api</title>
+</head>
+<body>
+    <style>
+        @position-try --bottom {
+            inset-area: bottom;
+        }
+        
+        .anchor {
+            anchor-name: --my-anch;
+            position: absolute;
+            height: 100px;
+        }
+        .tooltip-anchor {
+            position: absolute;
+            position-anchor: --my-anch;
+            
+            /* initial position */
+            inset-area: right span-all;
+            /* connect with @position-try options */
+            position-try-options: --bottom;
+
+            max-height: calc(anchor-size(height) * 2);
+            max-width: calc(anchor-size(width) * 2);
+            overflow: auto;
+        }
+        .tooltip {
+            padding: 3px;
+            margin: 6px;
+            border: 1px solid black;
+        }
+    </style>
+
+    <div class="container">
+        <button class="anchor" popovertarget="my-tooltip">
+            i'm the anchor
+        </button>
+    </div>
+    <div>
+        <span id="my-tooltip" class="tooltip-anchor tooltip" popover>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nemo maiores cupiditate quam iure exercitationem, facilis sapiente voluptatem voluptas repellendus amet magni laudantium hic quibusdam a pariatur esse earum aut.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum eligendi optio corporis similique molestiae! Aliquid eius dolorem velit eaque ipsam totam laborum, sit dolores quisquam, molestiae deserunt laboriosam architecto quibusdam?
+        </span>
+    </div>
+    <script>
+        const anchor = document.querySelector(".anchor");
+        anchor.addEventListener("click", event => {
+            event.stopPropagation();
+        });
+
+        document.addEventListener("click", event => {
+            anchor.style.top = `${event.clientY}px`;
+            anchor.style.left = `${event.clientX}px`;
+        });
+    </script>
+</body>
+</html>

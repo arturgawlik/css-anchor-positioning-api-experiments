@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css anchor positioning api</title>
+</head>
+<body>
+    <style>
+        .anchor {
+            anchor-name: --my-anch;
+            position: absolute;
+            height: 100px;
+        }
+        .tooltip-anchor {
+            position: absolute;
+            position-anchor: --my-anch;
+            inset-area: right;
+            max-height: calc(anchor-size(height) * 2);
+            max-width: calc(anchor-size(width) * 2);
+            overflow: auto;
+        }
+        .tooltip {
+            padding: 3px;
+            margin: 6px;
+            border: 1px solid black;
+        }
+    </style>
+
+    <div class="container">
+        <button class="anchor">
+            i'm the anchor
+        </button>
+    </div>
+    <div>
+        <span class="tooltip-anchor tooltip">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nemo maiores cupiditate quam iure exercitationem, facilis sapiente voluptatem voluptas repellendus amet magni laudantium hic quibusdam a pariatur esse earum aut.
+        </span>
+    </div>
+    <script>
+        const anchor = document.querySelector(".anchor");
+        anchor.addEventListener("click", event => {
+            event.stopPropagation();
+        });
+
+        document.addEventListener("click", event => {
+            anchor.style.top = `${event.clientY}px`;
+            anchor.style.left = `${event.clientX}px`;
+        });
+    </script>
+</body>
+</html>
